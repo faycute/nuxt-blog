@@ -1,0 +1,11 @@
+version: '3'
+services:
+  nuxt-blog: # Dockerが構築するNetworkにおけるホスト名（別コンテナから繋げたい場合、http://vue-address:8080 といった感じ
+    build: . # Dockerfileがあるディレクトリ
+    ports: # ホストのポートとコンテナのポートを繋げる(http://localhost:3333 でコンテナの3000番に繋がる)。nuxtはデフォルトが3000なので右側を3000にしとかないと繋がらないので注意。nuxt.config.jsの中も変えなきゃいけない
+      - 3333:3000
+    volumes:
+      - .:/app/nuxt-blog # コンテナのディレクトリをホスト（Mac）のディレクトリにマウント（ホスト：コンテナ）
+    stdin_open: true # docker run -iオプションに相当
+    tty: true # コンテナ内の標準出力とホストの出力を繋げる。docker run -tオプションに対応。これがないとコンテナがすぐ終了してしまうため、基本的にtrue
+    command: /bin/sh
